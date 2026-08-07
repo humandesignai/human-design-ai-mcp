@@ -1,0 +1,15 @@
+{
+  "name": "human-design-ai",
+  "owner": {
+    "name": "HumanDesign.ai",
+    "url": "https://humandesign.ai"
+  },
+  "plugins": [
+    {
+      "name": "human-design-ai",
+      "source": "./plugins/human-design-ai",
+      "description": "Connect Claude to your HumanDesign.ai charts and entitled platform workflows through OAuth.",
+      "version": "1.0.0"
+    }
+  ]
+}

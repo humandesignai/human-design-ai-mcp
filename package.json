@@ -1,0 +1,10 @@
+{
+  "name": "human-design-ai-mcp-distribution",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Public distribution and directory metadata for the official HumanDesign.ai MCP.",
+  "scripts": {
+    "test": "node scripts/validate.mjs",
+    "package": "bash scripts/package.sh"
+  }
+}

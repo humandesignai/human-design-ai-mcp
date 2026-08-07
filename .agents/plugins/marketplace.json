@@ -1,0 +1,20 @@
+{
+  "name": "human-design-ai",
+  "interface": {
+    "displayName": "HumanDesign.ai"
+  },
+  "plugins": [
+    {
+      "name": "human-design-ai",
+      "source": {
+        "source": "local",
+        "path": "./plugins/human-design-ai"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

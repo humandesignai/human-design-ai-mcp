@@ -1,0 +1,22 @@
+{
+  "name": "human-design-ai",
+  "version": "1.0.0",
+  "description": "Connect Claude to membership-aware HumanDesign.ai charts and platform workflows through OAuth.",
+  "author": {
+    "name": "HumanDesign.ai",
+    "url": "https://humandesign.ai"
+  },
+  "homepage": "https://humandesignmcp.com/docs/plugins",
+  "repository": "https://github.com/kylehi2222/human-design-ai-mcp",
+  "license": "MIT",
+  "keywords": [
+    "human-design",
+    "bodygraph",
+    "charts",
+    "transits",
+    "reports",
+    "website-builder",
+    "mcp"
+  ],
+  "mcpServers": "./.mcp.json"
+}

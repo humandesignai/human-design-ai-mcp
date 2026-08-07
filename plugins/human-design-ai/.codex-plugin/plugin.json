@@ -1,0 +1,47 @@
+{
+  "name": "human-design-ai",
+  "version": "1.0.0",
+  "description": "Connect ChatGPT and Codex to membership-aware HumanDesign.ai charts and platform workflows through OAuth.",
+  "author": {
+    "name": "HumanDesign.ai",
+    "url": "https://humandesign.ai"
+  },
+  "homepage": "https://humandesignmcp.com/docs/plugins",
+  "repository": "https://github.com/kylehi2222/human-design-ai-mcp",
+  "license": "MIT",
+  "keywords": [
+    "human-design",
+    "bodygraph",
+    "charts",
+    "transits",
+    "reports",
+    "website-builder",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "HumanDesign.ai",
+    "shortDescription": "Your Human Design account in ChatGPT and Codex",
+    "longDescription": "Generate and render your Human Design chart, explore authorized charts and library items, review account usage and reports, and work with entitled Website Builder projects through secure HumanDesign.ai OAuth.",
+    "developerName": "HumanDesign.ai",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write",
+      "Interactive"
+    ],
+    "websiteURL": "https://humandesignmcp.com",
+    "privacyPolicyURL": "https://humandesignmcp.com/privacy",
+    "termsOfServiceURL": "https://humandesignmcp.com/terms",
+    "defaultPrompt": [
+      "Show my Human Design chart as a PNG.",
+      "What can I explore with my current plan?",
+      "Search my authorized Human Design library."
+    ],
+    "brandColor": "#F2613F",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/logo.png",
+    "logoDark": "./assets/logo.png"
+  }
+}
