@@ -1,6 +1,6 @@
 {
   "name": "human-design-ai-mcp-distribution",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Public distribution and directory metadata for the official HumanDesign.ai MCP.",
   "scripts": {

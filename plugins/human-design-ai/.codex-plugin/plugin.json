@@ -1,7 +1,7 @@
 {
   "name": "human-design-ai",
-  "version": "1.0.0",
-  "description": "Connect ChatGPT and Codex to membership-aware HumanDesign.ai charts and platform workflows through OAuth.",
+  "version": "1.0.1",
+  "description": "Connect ChatGPT and Codex to HumanDesign.ai individual and composite charts, bodygraphs, and platform workflows through OAuth.",
   "author": {
     "name": "HumanDesign.ai",
     "url": "https://humandesign.ai"
@@ -13,6 +13,8 @@
     "human-design",
     "bodygraph",
     "charts",
+    "composite-charts",
+    "relationships",
     "transits",
     "reports",
     "website-builder",
@@ -23,7 +25,7 @@
   "interface": {
     "displayName": "HumanDesign.ai",
     "shortDescription": "Your Human Design account in ChatGPT and Codex",
-    "longDescription": "Generate and render your Human Design chart, explore authorized charts and library items, review account usage and reports, and work with entitled Website Builder projects through secure HumanDesign.ai OAuth.",
+    "longDescription": "Generate and render individual or composite Human Design charts, explore authorized charts and library items, review account usage and reports, and work with entitled Website Builder projects through secure HumanDesign.ai OAuth.",
     "developerName": "HumanDesign.ai",
     "category": "Productivity",
     "capabilities": [
@@ -36,8 +38,8 @@
     "termsOfServiceURL": "https://humandesignmcp.com/terms",
     "defaultPrompt": [
       "Show my Human Design chart as a PNG.",
-      "What can I explore with my current plan?",
-      "Search my authorized Human Design library."
+      "Create a composite chart for two people and show the relationship bodygraph.",
+      "What can I explore with my current plan?"
     ],
     "brandColor": "#F2613F",
     "composerIcon": "./assets/icon.png",

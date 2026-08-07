@@ -8,8 +8,8 @@
     {
       "name": "human-design-ai",
       "source": "./plugins/human-design-ai",
-      "description": "Connect Claude to your HumanDesign.ai charts and entitled platform workflows through OAuth.",
-      "version": "1.0.0"
+      "description": "Connect Claude to individual and composite HumanDesign.ai charts, bodygraphs, and entitled platform workflows through OAuth.",
+      "version": "1.0.1"
     }
   ]
 }

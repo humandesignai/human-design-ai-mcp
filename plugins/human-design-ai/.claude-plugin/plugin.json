@@ -1,7 +1,7 @@
 {
   "name": "human-design-ai",
-  "version": "1.0.0",
-  "description": "Connect Claude to membership-aware HumanDesign.ai charts and platform workflows through OAuth.",
+  "version": "1.0.1",
+  "description": "Connect Claude to HumanDesign.ai individual and composite charts, bodygraphs, and platform workflows through OAuth.",
   "author": {
     "name": "HumanDesign.ai",
     "url": "https://humandesign.ai"
@@ -13,6 +13,8 @@
     "human-design",
     "bodygraph",
     "charts",
+    "composite-charts",
+    "relationships",
     "transits",
     "reports",
     "website-builder",

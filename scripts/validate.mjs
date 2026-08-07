@@ -53,5 +53,8 @@ if (/api\.humandesign\.ai\/mcp|2025-11-05/.test(combined)) {
 if (/sk-[A-Za-z0-9_-]{10,}|Bearer\s+[A-Za-z0-9._-]{20,}/.test(combined)) {
   throw new Error("Possible credential material found");
 }
+if (!/generate_composite_chart/.test(combined) || !/composite relationship chart/i.test(combined)) {
+  throw new Error("Composite chart capability or guidance is missing");
+}
 
 console.log(`Validated HumanDesign.ai plugin ${codex.version}`);

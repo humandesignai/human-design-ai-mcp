@@ -1,6 +1,6 @@
 # HumanDesign.ai plugin
 
-Universal ChatGPT/Codex and Claude Code package for the official HumanDesign.ai MCP.
+Universal ChatGPT/Codex and Claude Code package for the official HumanDesign.ai MCP, including individual charts, composite relationship charts, and bodygraph rendering.
 
 - MCP: `https://mcp.humandesign.ai/`
 - Authentication: HumanDesign.ai OAuth 2.1
