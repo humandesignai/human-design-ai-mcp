@@ -50,6 +50,9 @@ const combined = textFiles.join("\n");
 if (/api\.humandesign\.ai\/mcp|2025-11-05/.test(combined)) {
   throw new Error("Stale MCP endpoint or protocol reference found");
 }
+if (/github\.com\/kylehi2222\/human-design-ai-mcp/.test(combined) || codex.repository !== "https://github.com/humandesignai/human-design-ai-mcp") {
+  throw new Error("Stale pre-transfer GitHub repository reference found");
+}
 if (/sk-[A-Za-z0-9_-]{10,}|Bearer\s+[A-Za-z0-9._-]{20,}/.test(combined)) {
   throw new Error("Possible credential material found");
 }
