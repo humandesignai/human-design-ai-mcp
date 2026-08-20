@@ -1,13 +1,13 @@
 {
   "name": "human-design-ai",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Connect ChatGPT and Codex to HumanDesign.ai individual and composite charts, bodygraphs, and platform workflows through OAuth.",
   "author": {
     "name": "HumanDesign.ai",
     "url": "https://humandesign.ai"
   },
   "homepage": "https://humandesignmcp.com/docs/plugins",
-  "repository": "https://github.com/kylehi2222/human-design-ai-mcp",
+  "repository": "https://github.com/humandesignai/human-design-ai-mcp",
   "license": "MIT",
   "keywords": [
     "human-design",
