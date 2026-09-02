@@ -1,7 +1,11 @@
 import { access, readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = new URL("../", import.meta.url).pathname;
+// URL.pathname leaves spaces percent-encoded (for example `HDAI%20Apps`), which
+// makes every filesystem check fail when the repository lives in a normal named
+// workspace folder. Always convert file URLs with the platform-aware Node helper.
+const root = fileURLToPath(new URL("../", import.meta.url));
 const plugin = join(root, "plugins", "human-design-ai");
 const required = [
   "README.md",
