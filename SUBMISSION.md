@@ -45,7 +45,7 @@ The official OAuth-connected Human Design MCP for individual and composite chart
 - Documentation: https://humandesignmcp.com/docs
 - Privacy: https://humandesignmcp.com/privacy
 - Terms: https://humandesignmcp.com/terms
-- Source and plugin packages: https://github.com/kylehi2222/human-design-ai-mcp
+- Source and plugin packages: https://github.com/humandesignai/human-design-ai-mcp
 
 ## Suggested test prompts
 

@@ -21,7 +21,7 @@ https://mcp.humandesign.ai/health
 ### Claude Code plugin
 
 ```bash
-claude plugin marketplace add kylehi2222/human-design-ai-mcp
+claude plugin marketplace add humandesignai/human-design-ai-mcp
 claude plugin install human-design-ai@human-design-ai
 ```
 
