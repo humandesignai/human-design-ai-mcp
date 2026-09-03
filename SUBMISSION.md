@@ -6,15 +6,15 @@ HumanDesign.ai MCP
 
 ## Short description
 
-Connect Claude, ChatGPT, Codex, Cursor, and VS Code to individual and composite Human Design chart generation, inline relationship bodygraphs, authorized libraries, reports, usage, and entitled Website Builder workflows.
+Connect Claude, ChatGPT, Codex, Cursor, and VS Code to the validated chart service that powers HumanDesign.ai, including primary-chart creation, composite calculations, deterministic bodygraph graphics, and authorized account workflows.
 
 ## mcpservers.org description
 
-HumanDesign.ai MCP is the official account-connected Human Design server for Claude, ChatGPT, Codex, Cursor, and VS Code. Generate structured individual and composite relationship charts, render individual or composite bodygraphs as PNG or SVG, resolve your saved primary chart, explore authorized chart, composite, and library data, review account usage and reports, and work with entitled Website Builder projects. The remote Streamable HTTP server uses HumanDesign.ai OAuth, filters tools by membership, workspace role, ownership, scopes, and entitlements, and returns structured, agent-friendly results. Free members can generate and render their own primary chart. Personal or Pro unlocks a much deeper HumanDesign.ai experience: composite relationship exploration, broader authorized chart access, transits, the wider library, eligible report features, and a community of professionals and people exploring similar designs. Website Builder workflows require Pro or a separate Builder entitlement. Discovery and permitted reads are free; consuming actions use existing calculation quotas or AI credits with previews and confirmation.
+HumanDesign.ai MCP is the official Human Design server for Claude, ChatGPT, Codex, Cursor, and VS Code. It exposes the same validated, versioned chart calculation service and reference data that power HumanDesign.ai, rather than asking an agent to approximate chart mathematics. Developers can generate structured individual and two-person composite charts through the calculation surface. Signed-in members can create or retrieve their own primary chart, render authorized individual or saved-composite bodygraphs as deterministic PNG or SVG, search permitted library data, review usage and existing report status, and inspect entitled Website Builder projects or cancel an eligible run. The remote stateless Streamable HTTP server uses HumanDesign.ai OAuth for account tools and protected API keys for six calculation tools. It filters every catalog by membership, workspace role, ownership, scopes, and entitlements, and returns versioned structured results with explicit quota and error metadata. Free members can create, save, view, and render their own primary chart; Individual adds account usage visibility; Personal is the minimum for wider authorized chart, saved-composite, library, and already-owned report access. Discovery, eligible reads, and existing-chart rendering are free; a newly calculated primary chart uses exactly one calculation unit after preview and confirmation. Report generation or delivery, Website Builder creation or publishing, community actions, and business control are not part of this release.
 
 ## One-line description
 
-The official OAuth-connected Human Design MCP for individual and composite charts, inline bodygraphs, authorized libraries, reports, usage, and entitled Website Builder workflows.
+Validated HumanDesign.ai calculation data, deterministic bodygraph graphics, and authorized account tools for MCP-compatible agents.
 
 ## Endpoint
 
@@ -50,7 +50,7 @@ The official OAuth-connected Human Design MCP for individual and composite chart
 ## Suggested test prompts
 
 - Show my Human Design chart as a PNG.
-- Create a composite chart for these two people and show the relationship bodygraph.
+- With an API-key calculation connection, create a composite chart for these two people.
 - What can I explore with my current membership?
 - Search my authorized chart library for a saved chart.
 - Review my current HumanDesign.ai usage.

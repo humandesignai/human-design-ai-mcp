@@ -1,5 +1,6 @@
 {
   "name": "human-design-ai",
+  "description": "Official HumanDesign.ai plugins for validated Human Design data and authorized account workflows.",
   "owner": {
     "name": "HumanDesign.ai",
     "url": "https://humandesign.ai"
@@ -8,8 +9,8 @@
     {
       "name": "human-design-ai",
       "source": "./plugins/human-design-ai",
-      "description": "Connect Claude to individual and composite HumanDesign.ai charts, bodygraphs, and entitled platform workflows through OAuth.",
-      "version": "1.0.2"
+      "description": "Connect Claude to validated HumanDesign.ai chart data, saved composites, deterministic bodygraph graphics, and authorized account workflows.",
+      "version": "1.1.0"
     }
   ]
 }

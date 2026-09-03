@@ -1,0 +1,380 @@
+{
+  "$schema": "https://developers.openai.com/plugins/schemas/chatgpt-app-submission.v1.json",
+  "schema_version": 1,
+  "app_info": {
+    "display_name": "HumanDesign.ai",
+    "subtitle": "Trusted Human Design charts",
+    "description": "HumanDesign.ai connects ChatGPT to the validated, versioned calculation service that powers HumanDesign.ai. It returns structured individual and composite Human Design chart data, can create or retrieve the signed-in user's primary chart, renders authorized charts and saved composites as deterministic PNG or SVG graphics, searches permitted library records, reports account usage, reads existing report status, and inspects entitled Website Builder projects. OAuth scopes, membership, workspace role, ownership, and entitlements filter account tools; protected API keys expose calculation-only tools. This release does not generate or deliver reports, create or publish websites, operate community features, or perform business actions.",
+    "category": "LIFESTYLE"
+  },
+  "tools": {
+    "resolve_timezone": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Performs a quota-accounted timezone resolution through the calculation service, which changes the caller's usage state.",
+        "open_world_justification": "Returns private resolution results without publishing content or changing a third-party system.",
+        "destructive_justification": "Does not delete, overwrite, revoke, send, or replace any resource."
+      }
+    },
+    "generate_chart": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Performs a quota-accounted individual chart calculation but does not save a chart to the connected platform account.",
+        "open_world_justification": "Returns private calculation data without publishing content or changing a third-party system.",
+        "destructive_justification": "Does not delete, overwrite, revoke, send, or replace an account resource."
+      }
+    },
+    "generate_composite_chart": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Performs a quota-accounted two-person composite calculation but does not save either person's data to an account library.",
+        "open_world_justification": "Returns private relationship-chart data without publishing content or contacting either person.",
+        "destructive_justification": "Does not delete, overwrite, revoke, send, or replace an account resource."
+      }
+    },
+    "get_reference_item": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Runs on the quota-accounted calculation surface, so the lookup changes the caller's usage state.",
+        "open_world_justification": "Returns Human Design reference data without publishing or changing external state.",
+        "destructive_justification": "Does not delete, overwrite, revoke, send, or replace any resource."
+      }
+    },
+    "get_transits": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Performs a quota-accounted transit calculation, which changes the caller's usage state.",
+        "open_world_justification": "Returns private transit data without publishing content or changing a third-party system.",
+        "destructive_justification": "Does not delete, overwrite, revoke, send, or replace any resource."
+      }
+    },
+    "search_celebrities": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Runs on the quota-accounted calculation surface, so the search changes the caller's usage state.",
+        "open_world_justification": "Returns indexed public-figure records without publishing or modifying external state.",
+        "destructive_justification": "Does not delete, overwrite, revoke, send, or replace any resource."
+      }
+    },
+    "account_get_context": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only retrieves the connected account boundary, role, membership, entitlements, and available capabilities.",
+        "open_world_justification": "Does not publish content or change any external system.",
+        "destructive_justification": "Does not delete, overwrite, revoke, send, or replace any resource."
+      }
+    },
+    "account_get_usage": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only retrieves balances, reservations, calculation quota, and summarized usage without consuming either balance.",
+        "open_world_justification": "Does not publish content or change any external system.",
+        "destructive_justification": "Does not delete, overwrite, revoke, send, or replace any resource."
+      }
+    },
+    "chart_get_primary": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only retrieves the connected user's owner-scoped primary chart and does not search or change library records.",
+        "open_world_justification": "Returns private chart data without publishing or transmitting it to another person.",
+        "destructive_justification": "Does not delete, overwrite, revoke, send, or replace any chart."
+      }
+    },
+    "chart_generate": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "After preview and confirmation, calculates and saves the connected user's primary chart and records one calculation unit.",
+        "open_world_justification": "Creates a private account chart and does not publish it or send it to another person.",
+        "destructive_justification": "Returns an existing primary chart instead of replacing it, so it cannot overwrite or delete a chart."
+      }
+    },
+    "chart_render": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Deterministically renders an existing authorized chart or saved composite without changing the source record or consuming quota.",
+        "open_world_justification": "Returns a private image block and short-lived account-scoped link without publishing the image.",
+        "destructive_justification": "Does not delete, overwrite, revoke, send, or replace any chart or composite."
+      }
+    },
+    "library_search": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only searches owner-scoped charts, saved composites, and existing reports without changing library state.",
+        "open_world_justification": "Does not publish library content or change an external system.",
+        "destructive_justification": "Does not delete, overwrite, revoke, send, or replace any library item."
+      }
+    },
+    "library_get": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only retrieves one authorized chart, saved composite, or existing report without changing it.",
+        "open_world_justification": "Does not publish library content or change an external system.",
+        "destructive_justification": "Does not delete, overwrite, revoke, send, or replace the selected item."
+      }
+    },
+    "library_organize": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": true
+      },
+      "justifications": {
+        "read_only_justification": "Creates, renames, or deletes private folders and changes folder assignments for authorized library items.",
+        "open_world_justification": "Only changes organization inside the user's private HumanDesign.ai boundary.",
+        "destructive_justification": "Can delete a selected library folder, with a preview and one-time confirmation required for that action."
+      }
+    },
+    "operation_get": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only retrieves the status, progress, and result of an authorized durable operation.",
+        "open_world_justification": "Does not publish content or change any external system.",
+        "destructive_justification": "Does not cancel, delete, overwrite, or otherwise change the operation."
+      }
+    },
+    "operation_cancel": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": true
+      },
+      "justifications": {
+        "read_only_justification": "Requests a state change that cancels an authorized operation when its domain state still permits cancellation.",
+        "open_world_justification": "Only changes a private HumanDesign.ai operation and does not contact or modify a third-party system.",
+        "destructive_justification": "Can irreversibly stop pending work, with idempotency preventing duplicate cancellation attempts."
+      }
+    },
+    "report_list_templates": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only lists report templates available to the connected account and does not start report generation.",
+        "open_world_justification": "Does not publish, generate, deliver, or send a report.",
+        "destructive_justification": "Does not delete, overwrite, revoke, send, or replace any report or template."
+      }
+    },
+    "report_get": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only retrieves owner-scoped status and metadata for an existing report.",
+        "open_world_justification": "Does not generate, publish, deliver, or send a report.",
+        "destructive_justification": "Does not delete, overwrite, revoke, send, or replace any report."
+      }
+    },
+    "builder_project_list": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only lists entitled Website Builder projects inside the connected account or workspace.",
+        "open_world_justification": "Does not build, publish, or change a website or external domain.",
+        "destructive_justification": "Does not delete, overwrite, cancel, or replace any project."
+      }
+    },
+    "builder_project_get": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only retrieves safe metadata and current state for one entitled Website Builder project.",
+        "open_world_justification": "Does not build, publish, or change a website or external domain.",
+        "destructive_justification": "Does not delete, overwrite, cancel, or replace the project."
+      }
+    },
+    "builder_plan_get": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only retrieves the current plan for one entitled Website Builder project.",
+        "open_world_justification": "Does not approve, execute, publish, or otherwise change a website plan.",
+        "destructive_justification": "Does not delete, overwrite, cancel, or replace the plan."
+      }
+    },
+    "builder_run_get": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only retrieves planning or build-run status without changing the run.",
+        "open_world_justification": "Does not build, publish, or change a website or external domain.",
+        "destructive_justification": "Does not stop, delete, overwrite, or replace a run."
+      }
+    },
+    "builder_run_cancel": {
+      "annotations": {
+        "readOnlyHint": false,
+        "openWorldHint": false,
+        "destructiveHint": true
+      },
+      "justifications": {
+        "read_only_justification": "Requests a state change that cancels an active private Website Builder run when the billing fence permits it.",
+        "open_world_justification": "Only changes a private Builder run and does not publish or modify the public website.",
+        "destructive_justification": "Can irreversibly stop active build work, with idempotency preventing duplicate cancellation attempts."
+      }
+    },
+    "builder_preview_get": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only retrieves the current preview link and does not revive an idle sandbox or create a service cost.",
+        "open_world_justification": "Does not publish or modify the public website or an external domain.",
+        "destructive_justification": "Does not delete, overwrite, cancel, or replace any project or preview."
+      }
+    },
+    "builder_asset_list": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only lists safe project asset metadata and never returns integration secret values.",
+        "open_world_justification": "Does not upload, publish, send, or modify an asset or public website.",
+        "destructive_justification": "Does not delete, overwrite, cancel, or replace any asset."
+      }
+    }
+  },
+  "test_cases": [
+    {
+      "description": "Inspect the signed-in account boundary before doing account-connected work.",
+      "user_prompt": "What HumanDesign.ai information and actions can I safely access with this connection?",
+      "file_attachment_urls": null,
+      "tools_triggered": "account_get_context",
+      "expected_output": "Returns the active personal account or workspace, role, membership, entitlements, and currently enabled capabilities without changing quota or account state.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Preview primary-chart creation without charging or replacing an existing chart.",
+      "user_prompt": "I do not have a primary chart yet. Preview creating mine from the fictional details 1990-01-15 at 10:30 in London, United Kingdom, and wait for my confirmation before you create it.",
+      "file_attachment_urls": null,
+      "tools_triggered": "chart_generate",
+      "expected_output": "Returns normalized birth details, any location or accuracy warning, a one-calculation-unit quote, and a short-lived confirmation; it does not execute before confirmation and returns an existing primary chart without another charge if one already exists.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Render the signed-in user's primary chart as an inline image with a fallback link.",
+      "user_prompt": "Show my saved primary Human Design bodygraph as a portrait PNG.",
+      "file_attachment_urls": null,
+      "tools_triggered": "chart_render",
+      "expected_output": "Returns a deterministic PNG image block and a short-lived download link for the authorized primary chart, with a free billing envelope and no claim of success if the image cannot be verified.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Find and render an authorized saved composite relationship chart.",
+      "user_prompt": "Find my saved composite relationship charts, let me choose one, and render the selected bodygraph as an SVG.",
+      "file_attachment_urls": null,
+      "tools_triggered": "library_search, chart_render",
+      "expected_output": "Returns only authorized saved composites, then renders the selected composite as an SVG image with a short-lived fallback link; an empty search result is handled without exposing another workspace.",
+      "expected_output_url": null
+    },
+    {
+      "description": "List entitled Website Builder projects without starting or publishing work.",
+      "user_prompt": "List the HumanDesign.ai Website Builder projects I am allowed to see and show each project's current state.",
+      "file_attachment_urls": null,
+      "tools_triggered": "builder_project_list",
+      "expected_output": "Returns the entitled project list or an empty list inside the connected boundary without starting a build, publishing a site, or exposing integration secret values.",
+      "expected_output_url": null
+    }
+  ],
+  "negative_test_cases": [
+    {
+      "description": "Do not trigger for a Western astrology horoscope request.",
+      "user_prompt": "Calculate my Western astrology natal horoscope and tell me my rising sign.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The app should not be invoked because Western astrology calculations are outside its Human Design workflows.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Do not trigger for medical diagnosis or treatment advice.",
+      "user_prompt": "Use Human Design to diagnose the cause of my chest pain and tell me which medication to take.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The app should not be invoked for diagnosis or treatment; the assistant should provide an appropriate medical-safety response instead.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Do not trigger an unreleased Website Builder publish or domain action.",
+      "user_prompt": "Publish my Website Builder project now and connect a new production domain without opening HumanDesign.ai.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "The app should not be invoked because publishing and domain changes are not exposed in this release and require a secure HumanDesign.ai workflow.",
+      "expected_output_url": null
+    }
+  ]
+}
