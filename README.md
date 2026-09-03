@@ -2,7 +2,7 @@
 
 The official, account-connected Human Design MCP for Claude, ChatGPT, and Codex, backed by the same validated, versioned calculation service that powers HumanDesign.ai.
 
-HumanDesign.ai MCP gives an AI assistant structured chart data, deterministic bodygraph graphics, and authorized account workflows without asking a language model to approximate chart mathematics. It uses secure HumanDesign.ai OAuth and filters every tool by the signed-in account, selected workspace, role, membership, ownership, scopes, and entitlements. New calculations are delegated to the same birth-input, timezone, calculation, and quota authority used by HumanDesign.ai.
+HumanDesign.ai MCP gives an AI assistant structured chart data, deterministic bodygraph graphics, and authorized account workflows without asking a language model to approximate chart mathematics. It uses secure HumanDesign.ai OAuth and filters every tool by the signed-in account, selected workspace, role, membership, ownership, server-derived capability grants, entitlements, and active rollout access. New calculations are delegated to the same birth-input, timezone, calculation, and quota authority used by HumanDesign.ai.
 
 ## Connect
 
@@ -73,6 +73,8 @@ API-key connections expose only the calculation and reference surface. Send the 
 
 These API tiers are separate from HumanDesign.ai platform memberships. Protocol discovery calls such as initialize, ping, and `tools/list` are free; a calculation-tool result reports its own quota effect.
 
+For MCP calls, `generate_chart`, `generate_composite_chart`, and `get_transits` require a stable `idempotencyKey`; keyed transit calls also require an explicit `date` so a retry cannot silently move to a different moment. Reuse the same key with the same normalized arguments when retrying one intended calculation and create a new key for new work. A matching retry consumes no additional quota and may deterministically recompute the result; it is not a byte-for-byte replay of a stored response. Direct REST and Agent HTTP clients can send the equivalent `Idempotency-Key` header on supported bounded non-streaming operations. During the compatibility rollout that header is recommended rather than mandatory; a request without it remains atomic but cannot deduplicate a transport retry. Batch and SSE reject caller retry keys and are outside this retry-deduplication contract.
+
 ## Membership access
 
 | Membership | MCP experience |
@@ -80,7 +82,7 @@ These API tiers are separate from HumanDesign.ai platform memberships. Protocol 
 | Free | Generate, view, and render your own primary chart. |
 | Individual | Your own primary chart plus account usage information. This membership uses the internal identifier `solo`. |
 | Personal | The minimum membership for wider authorized chart and saved-composite access, the wider library, and reports already owned. |
-| Pro | Personal capabilities plus entitled professional workspaces and safe Website Builder reads and cancellable-run controls; a separate Builder entitlement may also qualify. |
+| Pro | Personal capabilities plus entitled professional workspaces. Website Builder reads and cancellable-run controls appear only when active Builder rollout access is also enabled. |
 
 Selecting a workspace does not grant new permissions. It chooses the account boundary for the connection. Membership, role, ownership, and entitlement checks still apply to every tool call, and an authorized Builder boundary covers eligible projects underneath it.
 
@@ -102,7 +104,7 @@ Ask: **“Show my Human Design chart as a PNG.”** The assistant should resolve
 - Discovery and permitted reads are free unless a result explicitly states otherwise.
 - Existing-chart rendering is free; calculating and rendering a new chart uses one normal calculation unit.
 - Existing-composite rendering follows the same image fallback: inline PNG where supported, plus a short-lived download link.
-- Consuming or externally visible actions use previews, idempotency, and confirmation or a secure HumanDesign.ai handoff.
+- Account-connected consequential actions use previews and confirmation when the live tool advertises that workflow; high-risk external effects use a secure HumanDesign.ai handoff. API-key calculations execute directly and use the quota/idempotency contract above.
 - The MCP never asks users to paste passwords, OAuth tokens, refresh tokens, API keys, or integration secrets into chat.
 
 ## Repository contents

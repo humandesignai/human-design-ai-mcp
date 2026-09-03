@@ -66,8 +66,11 @@ const expectedOAuthTools = [
 ];
 const expectedToolNames = [...expectedCalculationTools, ...expectedOAuthTools];
 const expectedMinimumApiTiers = ["Free", "Free", "Free", "Free", "Startup", "Business"];
+const expectedCalculationUnits = [0, 1, 1, 0, 1, 0];
 const expectedWriteTools = new Set([
-  ...expectedCalculationTools,
+  "generate_chart",
+  "generate_composite_chart",
+  "get_transits",
   "chart_generate",
   "library_organize",
   "operation_cancel",
@@ -137,8 +140,28 @@ if (JSON.stringify(capabilities.calculationTools?.map((tool) => tool.name)) !== 
 if (JSON.stringify(capabilities.calculationTools?.map((tool) => tool.minimumApiTier)) !== JSON.stringify(expectedMinimumApiTiers)) {
   throw new Error("Capability manifest calculation tier boundaries are stale");
 }
+if (JSON.stringify(capabilities.calculationTools?.map((tool) => tool.units)) !== JSON.stringify(expectedCalculationUnits)) {
+  throw new Error("Capability manifest calculation quota units are stale");
+}
 if (JSON.stringify(capabilities.authentication?.apiKeyHeaders) !== JSON.stringify(["Authorization: Bearer", "X-Api-Key"])) {
   throw new Error("Capability manifest must document both supported API-key header forms");
+}
+if (JSON.stringify(capabilities.calculationIdempotency?.requiredMcpTools) !== JSON.stringify([
+  "generate_chart",
+  "generate_composite_chart",
+  "get_transits",
+])) {
+  throw new Error("Capability manifest consuming MCP idempotency tools are stale");
+}
+if (capabilities.calculationIdempotency?.mcpArgument !== "idempotencyKey"
+  || capabilities.calculationIdempotency?.agentHttpHeader !== "Idempotency-Key"
+  || capabilities.calculationIdempotency?.pattern !== "^[A-Za-z0-9._:-]{8,160}$") {
+  throw new Error("Capability manifest idempotency field contract is invalid");
+}
+if (!/no additional quota/i.test(capabilities.calculationIdempotency?.replayBehavior ?? "")
+  || !/deterministically recompute/i.test(capabilities.calculationIdempotency?.replayBehavior ?? "")
+  || !/optional for direct REST and Agent HTTP/i.test(capabilities.calculationIdempotency?.directApiCompatibility ?? "")) {
+  throw new Error("Capability manifest must describe quota-idempotent deterministic replay without overstating direct API enforcement");
 }
 if (JSON.stringify(capabilities.oauthTools?.map((tool) => tool.name)) !== JSON.stringify(expectedOAuthTools)) {
   throw new Error("Capability manifest OAuth tools do not match the newsletter release catalog");
@@ -153,7 +176,7 @@ if (!/minimum membership for wider authorized chart/i.test(capabilities.membersh
   throw new Error("Personal must remain the minimum wider-design membership boundary");
 }
 
-if (chatgptSubmission.$schema !== "https://developers.openai.com/plugins/schemas/chatgpt-app-submission.v1.json" || chatgptSubmission.schema_version !== 1) {
+if (chatgptSubmission.$schema !== "https://developers.openai.com/apps-sdk/schemas/chatgpt-app-submission.v1.json" || chatgptSubmission.schema_version !== 1) {
   throw new Error("ChatGPT submission schema metadata is invalid");
 }
 if (chatgptSubmission.app_info?.display_name !== "HumanDesign.ai") {
@@ -207,6 +230,15 @@ if (/strongly recommend|upsell|subscribe now|upgrade now|buy (personal|pro)/i.te
 }
 if (!/same (validated, versioned )?calculation service.*powers HumanDesign\.ai/is.test(combined)) {
   throw new Error("Reliability and authoritative calculation provenance are missing");
+}
+if (!/idempotencyKey/.test(combined) || !/no additional quota/i.test(combined) || !/not (a )?byte-for-byte/i.test(combined)) {
+  throw new Error("Calculation retry guidance is missing or overstates stored-response replay");
+}
+if (!/server-derived capability grants/i.test(combined) || /OAuth scopes?[^.]{0,80}(filter|grant|unlock)/i.test(combined)) {
+  throw new Error("OAuth identity scopes must remain distinct from server-derived capability grants");
+}
+if (!/active Builder rollout access/i.test(combined)) {
+  throw new Error("Builder tooling must remain gated by active rollout access as well as entitlement");
 }
 if (/officially (approved|listed)|available (in|on) (the )?(ChatGPT|Claude) (plugin )?(directory|store)/i.test(combined)) {
   throw new Error("Distribution copy must not claim directory approval before it exists");

@@ -10,7 +10,7 @@ Use the official HumanDesign.ai MCP for requests involving the signed-in user's 
 ## Connect and establish context
 
 1. Use the OAuth connection supplied by the MCP server. Never ask the user to paste passwords, OAuth tokens, refresh tokens, API keys, integration secrets, or signed URLs into chat.
-2. When available, call `account_get_context` before account-connected work. Use only tools returned by discovery; the server filters tools by OAuth scope, membership, workspace role, ownership, and entitlement.
+2. When available, call `account_get_context` before account-connected work. Use only tools returned by discovery; the server filters tools by server-derived capability grants, membership, workspace role, ownership, entitlements, and active rollout access.
 3. The selected account or workspace is the data boundary for this connection. It is not an extra permission grant. A Builder grant covers eligible projects beneath that boundary, while ownership and role are still revalidated on every request.
 4. Prefer read-only discovery before proposing a mutation or consuming operation.
 
@@ -19,8 +19,8 @@ Use the official HumanDesign.ai MCP for requests involving the signed-in user's 
 - Free: generate, view, and render the user's own primary chart.
 - Individual (internal identifier: `solo`): the Free chart boundary plus account usage information; it does not grant access to other people's charts, saved composites, the wider library, or reports.
 - Personal: the minimum membership that may expose wider authorized charts, saved composites, the wider library, and already-owned reports according to the live catalog.
-- Pro: Personal capabilities plus entitled professional workspaces and safe Website Builder reads or run cancellation.
-- Website Builder: requires Pro or a separate Builder entitlement.
+- Pro: Personal capabilities plus entitled professional workspaces.
+- Website Builder: appears only for Personal or Pro membership plus active Builder rollout access and an authorized workspace, when the live tool catalog advertises it.
 - The live server is authoritative. Never infer access from marketing copy or claim that a membership unlocks a tool unless the refreshed tool list or server response confirms it.
 
 When a requested capability is unavailable because of membership or entitlement:
@@ -41,6 +41,7 @@ When a requested capability is unavailable because of membership or entitlement:
 ## Composite relationship charts
 
 - For a new two-person relationship bodygraph, use `generate_composite_chart` with both people's birth details when the live tool list exposes it.
+- For `generate_chart`, `generate_composite_chart`, and `get_transits`, create one stable `idempotencyKey` for the intended calculation. Always pass an explicit `date` to `get_transits` so a retry addresses the same instant. Reuse the key only with identical normalized arguments when recovering from a transport failure; use a new key for new work. A matching retry consumes no additional quota but may deterministically recompute the result, so do not describe it as byte-for-byte stored-response replay.
 - For an authorized saved composite, use `library_search` with type `composite` or `library_get` with kind `composite`; do not approximate a composite by combining two narrative summaries.
 - Use `chart_render` for an authorized composite image when supported. Prefer PNG in chat and SVG for scalable export, and provide the short-lived link if the client does not display the image block.
 - Explain the quota or billing metadata returned by the server. Retrieving and rendering an existing authorized composite is free unless the envelope says otherwise; a new composite calculation uses the calculation quota reported by the server.
@@ -49,7 +50,7 @@ When a requested capability is unavailable because of membership or entitlement:
 ## Billing, mutations, and confirmation
 
 - Discovery, authorized library reads, operation status, and existing-chart rendering are free unless the returned envelope explicitly says otherwise.
-- Before a consuming or mutating action, summarize the billing class, estimate, maximum, destination, asynchronous status, and confirmation requirement from the returned preview.
+- Before an account-connected consequential action whose live tool advertises preview, summarize the returned billing class, estimate, maximum, destination, asynchronous status, and confirmation requirement. API-key calculations execute directly under their published quota and idempotency contract.
 - Reuse the same stable idempotency key when retrying one intended mutation.
 - Do not invent or reuse a confirmation token after its arguments, actor, workspace, destination, maximum charge, or expiry changes.
 - Publishing, delivery, domain, financial, collaborator, destructive, and secret-management actions may require a secure HumanDesign.ai UI handoff.

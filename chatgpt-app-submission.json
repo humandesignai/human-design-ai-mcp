@@ -1,21 +1,21 @@
 {
-  "$schema": "https://developers.openai.com/plugins/schemas/chatgpt-app-submission.v1.json",
+  "$schema": "https://developers.openai.com/apps-sdk/schemas/chatgpt-app-submission.v1.json",
   "schema_version": 1,
   "app_info": {
     "display_name": "HumanDesign.ai",
     "subtitle": "Trusted Human Design charts",
-    "description": "HumanDesign.ai connects ChatGPT to the validated, versioned calculation service that powers HumanDesign.ai. It returns structured individual and composite Human Design chart data, can create or retrieve the signed-in user's primary chart, renders authorized charts and saved composites as deterministic PNG or SVG graphics, searches permitted library records, reports account usage, reads existing report status, and inspects entitled Website Builder projects. OAuth scopes, membership, workspace role, ownership, and entitlements filter account tools; protected API keys expose calculation-only tools. This release does not generate or deliver reports, create or publish websites, operate community features, or perform business actions.",
+    "description": "HumanDesign.ai connects ChatGPT to the validated, versioned calculation service that powers HumanDesign.ai. It returns structured individual and composite Human Design chart data, can create or retrieve the signed-in user's primary chart, renders authorized charts and saved composites as deterministic PNG or SVG graphics, searches permitted library records, reports account usage, reads existing report status, and inspects entitled Website Builder projects. Server-derived capability grants, membership, workspace role, ownership, entitlements, and active Builder rollout access filter account tools; protected API keys expose calculation-only tools. This release does not generate or deliver reports, create or publish websites, operate community features, or perform business actions.",
     "category": "LIFESTYLE"
   },
   "tools": {
     "resolve_timezone": {
       "annotations": {
-        "readOnlyHint": false,
+        "readOnlyHint": true,
         "openWorldHint": false,
         "destructiveHint": false
       },
       "justifications": {
-        "read_only_justification": "Performs a quota-accounted timezone resolution through the calculation service, which changes the caller's usage state.",
+        "read_only_justification": "Performs a non-consuming timezone lookup that returns validated location and IANA timezone candidates without changing calculation quota or account state.",
         "open_world_justification": "Returns private resolution results without publishing content or changing a third-party system.",
         "destructive_justification": "Does not delete, overwrite, revoke, send, or replace any resource."
       }
@@ -46,12 +46,12 @@
     },
     "get_reference_item": {
       "annotations": {
-        "readOnlyHint": false,
+        "readOnlyHint": true,
         "openWorldHint": false,
         "destructiveHint": false
       },
       "justifications": {
-        "read_only_justification": "Runs on the quota-accounted calculation surface, so the lookup changes the caller's usage state.",
+        "read_only_justification": "Retrieves a canonical Human Design reference record without consuming a calculation unit or changing account state.",
         "open_world_justification": "Returns Human Design reference data without publishing or changing external state.",
         "destructive_justification": "Does not delete, overwrite, revoke, send, or replace any resource."
       }
@@ -70,12 +70,12 @@
     },
     "search_celebrities": {
       "annotations": {
-        "readOnlyHint": false,
+        "readOnlyHint": true,
         "openWorldHint": false,
         "destructiveHint": false
       },
       "justifications": {
-        "read_only_justification": "Runs on the quota-accounted calculation surface, so the search changes the caller's usage state.",
+        "read_only_justification": "Searches the indexed public-figure catalog without consuming a calculation unit or changing account state.",
         "open_world_justification": "Returns indexed public-figure records without publishing or modifying external state.",
         "destructive_justification": "Does not delete, overwrite, revoke, send, or replace any resource."
       }

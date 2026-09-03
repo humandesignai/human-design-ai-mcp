@@ -9,3 +9,5 @@ Universal ChatGPT/Codex and Claude Code package for the official HumanDesign.ai 
 - Terms: https://humandesignmcp.com/terms
 
 The package contains both `.codex-plugin/plugin.json` and `.claude-plugin/plugin.json`. Both use the same remote MCP connection and membership-aware workflow skill.
+
+Consuming API-key MCP tools require a stable `idempotencyKey`, allowing the same intended calculation to be retried without an additional quota debit. Matching retries may deterministically recompute and are not byte-for-byte stored-response replay.

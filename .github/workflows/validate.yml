@@ -18,3 +18,8 @@ jobs:
           node-version: 22
       - run: npm test
       - run: npm run package
+      - name: Verify reproducible plugin archive
+        run: |
+          cp dist/human-design-ai-plugin.zip /tmp/human-design-ai-plugin-first.zip
+          npm run package
+          cmp /tmp/human-design-ai-plugin-first.zip dist/human-design-ai-plugin.zip

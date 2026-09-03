@@ -19,13 +19,23 @@
     "apiKey": "Six calculation and reference tools only",
     "apiKeyHeaders": ["Authorization: Bearer", "X-Api-Key"]
   },
+  "calculationIdempotency": {
+    "requiredMcpTools": ["generate_chart", "generate_composite_chart", "get_transits"],
+    "mcpArgument": "idempotencyKey",
+    "agentHttpHeader": "Idempotency-Key",
+    "pattern": "^[A-Za-z0-9._:-]{8,160}$",
+    "retryRule": "Reuse the same key with the same normalized arguments for the same intended calculation; use a new key for new work.",
+    "replayBehavior": "A matching retry consumes no additional quota and may deterministically recompute the result; it is not a byte-for-byte stored-response replay.",
+    "deterministicInputs": "MCP get_transits requires an explicit date; direct unkeyed API calls may still use the current-time default during compatibility rollout.",
+    "directApiCompatibility": "The header remains optional for direct REST and Agent HTTP callers during rollout on supported bounded non-streaming operations; calls without it receive atomic quota accounting but no retry deduplication. Batch and SSE reject caller-supplied Idempotency-Key and are excluded from the retry-deduplication contract."
+  },
   "calculationTools": [
-    { "name": "resolve_timezone", "minimumApiTier": "Free" },
-    { "name": "generate_chart", "minimumApiTier": "Free" },
-    { "name": "generate_composite_chart", "minimumApiTier": "Free" },
-    { "name": "get_reference_item", "minimumApiTier": "Free" },
-    { "name": "get_transits", "minimumApiTier": "Startup" },
-    { "name": "search_celebrities", "minimumApiTier": "Business" }
+    { "name": "resolve_timezone", "minimumApiTier": "Free", "units": 0 },
+    { "name": "generate_chart", "minimumApiTier": "Free", "units": 1 },
+    { "name": "generate_composite_chart", "minimumApiTier": "Free", "units": 1 },
+    { "name": "get_reference_item", "minimumApiTier": "Free", "units": 0 },
+    { "name": "get_transits", "minimumApiTier": "Startup", "units": 1 },
+    { "name": "search_celebrities", "minimumApiTier": "Business", "units": 0 }
   ],
   "oauthTools": [
     { "name": "account_get_context", "command": "account.get_context" },
@@ -52,7 +62,7 @@
     "Free": "Create, save, view, and render the connected user's own primary chart.",
     "Individual": "The individual membership (internal identifier: solo) adds account usage visibility, while chart access remains limited to the connected user's own primary chart.",
     "Personal": "The minimum membership for wider authorized chart, saved-composite, library, and already-owned report access where advertised by tools/list.",
-    "Pro": "Personal capabilities plus entitled professional workspaces and Website Builder reads and cancellable-run controls where advertised by tools/list."
+    "Pro": "Personal capabilities plus entitled professional workspaces; Website Builder tools appear only when active Builder rollout access is also enabled and tools/list advertises them."
   },
   "billing": {
     "discovery": "free",
