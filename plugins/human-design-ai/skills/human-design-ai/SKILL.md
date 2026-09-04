@@ -38,6 +38,15 @@ When a requested capability is unavailable because of membership or entitlement:
 - If the client does not display the returned image block, provide the short-lived download link from the tool result and say that it expires.
 - Rendering an existing authorized chart is free. If a new calculation is required, explain that the normal calculation quota applies once; never calculate and render as two billable operations.
 
+## Birth date and time format
+
+- Send a birth date and time exactly as it read on the clock where the person was born, with no `Z` and no UTC offset. The `timezone` argument supplies the zone as an IANA identifier.
+- `"birthDateTime": "1990-05-15T14:30:00"` with `"timezone": "America/New_York"` means half past two in the afternoon in New York.
+- A value carrying `Z` or an offset does not name a wall clock time on its own. Something has to decide which zone to read it in, and that decision changes the chart. Never convert a birth time to UTC before sending it, and never append `Z` to make a value look like ISO 8601.
+- Values ending in `Z` or a numeric offset are deprecated. They are still accepted for now, read as UTC, and the API announces the deprecation on its response. They will stop being accepted, and the date will be announced in advance.
+- A wall clock time that names no single moment is refused before any calculation unit is used: `nonexistent_local_time` when a daylight-saving change skipped it, `ambiguous_local_time` when a daylight-saving fold repeated it, and `future_birth_datetime` when the birth is in the future. Ask the user to confirm the intended clock time rather than guessing one.
+- Transit dates use the same wall clock format but may be in the future.
+
 ## Composite relationship charts
 
 - For a new two-person relationship bodygraph, use `generate_composite_chart` with both people's birth details when the live tool list exposes it.
