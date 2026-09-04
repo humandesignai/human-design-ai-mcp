@@ -10,7 +10,7 @@ Use the official HumanDesign.ai MCP for requests involving the signed-in user's 
 ## Connect and establish context
 
 1. Use the OAuth connection supplied by the MCP server. Never ask the user to paste passwords, OAuth tokens, refresh tokens, API keys, integration secrets, or signed URLs into chat.
-2. When available, call `account_get_context` before account-connected work. Use only tools returned by discovery; the server filters tools by server-derived capability grants, membership, workspace role, ownership, entitlements, and active rollout access.
+2. When available, call `account_get_context` before account-connected work. Use only tools returned by discovery; the server filters tools by server-derived capability grants, membership, workspace role, ownership, and entitlements.
 3. The selected account or workspace is the data boundary for this connection. It is not an extra permission grant. A Builder grant covers eligible projects beneath that boundary, while ownership and role are still revalidated on every request.
 4. Prefer read-only discovery before proposing a mutation or consuming operation.
 
@@ -20,7 +20,7 @@ Use the official HumanDesign.ai MCP for requests involving the signed-in user's 
 - Individual (internal identifier: `solo`): the Free chart boundary plus account usage information; it does not grant access to other people's charts, saved composites, the wider library, or reports.
 - Personal: the minimum membership that may expose wider authorized charts, saved composites, the wider library, and already-owned reports according to the live catalog.
 - Pro: Personal capabilities plus entitled professional workspaces.
-- Website Builder: appears only for Personal or Pro membership plus active Builder rollout access and an authorized workspace, when the live tool catalog advertises it.
+- Website Builder tools appear only when HumanDesign.ai has enabled the Builder for the user's account, and only when `tools/list` advertises them.
 - The live server is authoritative. Never infer access from marketing copy or claim that a membership unlocks a tool unless the refreshed tool list or server response confirms it.
 
 When a requested capability is unavailable because of membership or entitlement:
@@ -40,7 +40,7 @@ When a requested capability is unavailable because of membership or entitlement:
 
 ## Birth date and time format
 
-- Send a birth date and time exactly as it read on the clock where the person was born, with no `Z` and no UTC offset. The `timezone` argument supplies the zone as an IANA identifier.
+- Send the birth date and time as it read on the clock where the person was born, with no `Z` and no UTC offset, and give the timezone separately as an IANA identifier (the `timezone` argument).
 - `"birthDateTime": "1990-05-15T14:30:00"` with `"timezone": "America/New_York"` means half past two in the afternoon in New York.
 - A value carrying `Z` or an offset does not name a wall clock time on its own. Something has to decide which zone to read it in, and that decision changes the chart. Never convert a birth time to UTC before sending it, and never append `Z` to make a value look like ISO 8601.
 - Values ending in `Z` or a numeric offset are deprecated. They are still accepted for now, read as UTC, and the API announces the deprecation on its response. They will stop being accepted, and the date will be announced in advance.

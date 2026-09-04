@@ -11,3 +11,5 @@ Universal ChatGPT/Codex and Claude Code package for the official HumanDesign.ai 
 The package contains both `.codex-plugin/plugin.json` and `.claude-plugin/plugin.json`. Both use the same remote MCP connection and membership-aware workflow skill.
 
 Consuming API-key MCP tools require a stable `idempotencyKey`, allowing the same intended calculation to be retried without an additional quota debit. Matching retries may deterministically recompute and are not byte-for-byte stored-response replay.
+
+Send the birth date and time as it read on the clock where the person was born, with no `Z` and no UTC offset, and give the timezone separately as an IANA identifier. For example, `1990-05-15T14:30:00` with `America/New_York` means half past two in the afternoon in New York. Never convert a birth time to UTC before sending it; a wall clock time that a daylight-saving change skipped or repeated is refused before any calculation unit is used.

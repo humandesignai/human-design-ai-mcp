@@ -119,6 +119,7 @@ const textFiles = await Promise.all([
   readFile(join(plugin, ".mcp.json"), "utf8")
 ]);
 const combined = textFiles.join("\n");
+const capabilityText = await readFile(join(root, "capability-manifest.json"), "utf8");
 if (/api\.humandesign\.ai\/mcp|2025-11-05/.test(combined)) {
   throw new Error("Stale MCP endpoint or protocol reference found");
 }
@@ -228,8 +229,25 @@ const agentFacingPolicy = [
 if (/strongly recommend|upsell|subscribe now|upgrade now|buy (personal|pro)/i.test(agentFacingPolicy)) {
   throw new Error("Agent-facing plugin content must not contain subscription promotion");
 }
-if (!/same (validated, versioned )?calculation service.*powers HumanDesign\.ai/is.test(combined)) {
-  throw new Error("Reliability and authoritative calculation provenance are missing");
+// Positioning line for the calculation service. It is quoted verbatim wherever the
+// service is described; variants that drop "validated," or swap in "authority" are drift.
+const provenanceLine = /the same validated, versioned calculation service that powers HumanDesign\.ai/;
+const provenanceFiles = {
+  "README.md": textFiles[0],
+  "SUBMISSION.md": textFiles[1],
+  "llms.txt": textFiles[2],
+  "plugins/human-design-ai/README.md": textFiles[3],
+  "chatgpt-app-submission.json": textFiles[5],
+  "plugins/human-design-ai/.codex-plugin/plugin.json": textFiles[9],
+  "capability-manifest.json": capabilityText,
+};
+for (const [name, text] of Object.entries(provenanceFiles)) {
+  if (!provenanceLine.test(text)) {
+    throw new Error(`${name} must carry the calculation-service provenance line verbatim`);
+  }
+}
+if (/same (?:versioned|validated,? versioned chart) calculation|calculation authority used by|validated chart service/i.test(`${combined}\n${capabilityText}`)) {
+  throw new Error("Calculation-service provenance line has drifted from the verbatim wording");
 }
 if (!/idempotencyKey/.test(combined) || !/no additional quota/i.test(combined) || !/not (a )?byte-for-byte/i.test(combined)) {
   throw new Error("Calculation retry guidance is missing or overstates stored-response replay");
@@ -237,8 +255,81 @@ if (!/idempotencyKey/.test(combined) || !/no additional quota/i.test(combined) |
 if (!/server-derived capability grants/i.test(combined) || /OAuth scopes?[^.]{0,80}(filter|grant|unlock)/i.test(combined)) {
   throw new Error("OAuth identity scopes must remain distinct from server-derived capability grants");
 }
-if (!/active Builder rollout access/i.test(combined)) {
-  throw new Error("Builder tooling must remain gated by active rollout access as well as entitlement");
+// Website Builder access. Distribution copy states no Builder access rule: every
+// customer-facing file carries one neutral sentence, and no sentence that mentions the
+// Builder may name a plan or membership word as a condition. Plan names stay
+// case-sensitive on purpose: "individual charts" and the Builder's own site "plan"
+// are ordinary words in this copy.
+const builderAccessSentence = /Website Builder tools appear only when HumanDesign\.ai has enabled the Builder for (?:your|the connected|the user's) account, and only when `?tools\/list`? advertises them\./;
+const builderRuleFiles = {
+  "README.md": textFiles[0],
+  "SUBMISSION.md": textFiles[1],
+  "llms.txt": textFiles[2],
+  "plugins/human-design-ai/skills/human-design-ai/SKILL.md": textFiles[4],
+  "chatgpt-app-submission.json": textFiles[5],
+  "capability-manifest.json": capabilityText,
+};
+for (const [name, text] of Object.entries(builderRuleFiles)) {
+  if (!builderAccessSentence.test(text)) {
+    throw new Error(`${name} must carry the neutral Website Builder access sentence`);
+  }
+}
+if (typeof capabilities.builderAccess !== "string" || !builderAccessSentence.test(capabilities.builderAccess)) {
+  throw new Error("Capability manifest builderAccess must be the neutral Website Builder access sentence");
+}
+if (/builder/i.test(JSON.stringify(capabilities.membershipBoundaries ?? {}))) {
+  throw new Error("Capability manifest membership boundaries must not mention the Builder");
+}
+const builderScanText = `${combined}\n${capabilityText}`;
+if (/Builder rollout|rollout access|rollout flag/i.test(builderScanText)) {
+  throw new Error("Builder access must not be described as rollout access");
+}
+// Split into sentences; "HumanDesign.ai" and URLs must not count as sentence ends.
+const sentences = builderScanText
+  .replace(/humandesign\.ai/gi, "humandesign-ai")
+  .split(/[.!?](?=["')\s]|$)|\n/)
+  .map((sentence) => sentence.trim())
+  .filter(Boolean);
+const planNameInSentence = /\b(?:Free|Individual|Personal|Pro|Max)\b/;
+const membershipWordInSentence = /\b(?:solo|memberships?|rollouts?|subscriptions?|paid|feature flags?|upgrades?)\b/i;
+const builderSentences = sentences.filter((sentence) => /builder/i.test(sentence));
+const offendingBuilderSentences = builderSentences.filter(
+  (sentence) => planNameInSentence.test(sentence) || membershipWordInSentence.test(sentence),
+);
+if (offendingBuilderSentences.length > 0) {
+  throw new Error(`Builder access must not be stated in terms of a plan or membership: ${JSON.stringify(offendingBuilderSentences)}`);
+}
+
+// Birth inputs are wall-clock values with a separate IANA timezone, and no cutover date
+// is ever stated for the deprecated Z/offset forms.
+const wallClockRule = /as it read on the clock where the person was born, with no `?Z`? and no UTC offset/;
+const ianaRule = /timezone[^.]{0,80}IANA identifier/i;
+const inputGuidanceFiles = {
+  "README.md": textFiles[0],
+  "llms.txt": textFiles[2],
+  "plugins/human-design-ai/README.md": textFiles[3],
+  "plugins/human-design-ai/skills/human-design-ai/SKILL.md": textFiles[4],
+};
+for (const [name, text] of Object.entries(inputGuidanceFiles)) {
+  if (!wallClockRule.test(text) || !ianaRule.test(text)) {
+    throw new Error(`${name} must explain wall-clock birth times with a separate IANA timezone`);
+  }
+}
+const datedCutover = sentences.filter(
+  (sentence) => /deprecat|cutover|stop being accepted|no longer accepted/i.test(sentence)
+    && (/\b(?:19|20)\d\d-\d\d(?:-\d\d)?\b/.test(sentence)
+      || /\b(?:January|February|March|April|May|June|July|August|September|October|November|December)\b/.test(sentence)),
+);
+if (datedCutover.length > 0) {
+  throw new Error(`Do not state a cutover date for deprecated birth-time formats: ${JSON.stringify(datedCutover)}`);
+}
+
+// "official" describes first-party ownership only, never status with a client or directory.
+if (/\bofficial\b[^.\n]{0,60}\b(?:server|plugin|MCP|app|connector)s? for (?:Claude|ChatGPT|Codex|Cursor|VS Code|OpenAI)\b/i.test(builderScanText.replace(/humandesign\.ai/gi, "humandesign-ai"))) {
+  throw new Error("\"official\" may describe first-party ownership only, not status with Claude, ChatGPT, Codex or a directory");
+}
+if (/\buptime\b|\bSLA\b|\b99\.\d+ ?%|guaranteed availability|most accurate|\bthe leading\b|world's (?:best|leading|first)/i.test(builderScanText)) {
+  throw new Error("Distribution copy must not make uptime, SLA or market-dominance claims");
 }
 if (/officially (approved|listed)|available (in|on) (the )?(ChatGPT|Claude) (plugin )?(directory|store)/i.test(combined)) {
   throw new Error("Distribution copy must not claim directory approval before it exists");
@@ -250,4 +341,10 @@ if (/selected Personal account or workspace/i.test(combined)) {
   throw new Error("Workspace-selection copy must not imply that every selected boundary is a Personal plan");
 }
 
-console.log(`Validated HumanDesign.ai plugin ${codex.version}: ${expectedToolNames.length} tools, 5 positive tests, 3 negative tests`);
+console.log([
+  `Validated HumanDesign.ai plugin ${codex.version}: ${expectedToolNames.length} tools, 5 positive tests, 3 negative tests`,
+  `provenance line verbatim in ${Object.keys(provenanceFiles).length} files`,
+  `neutral Builder sentence in ${Object.keys(builderRuleFiles).length} files`,
+  `${builderSentences.length} Builder sentences scanned, ${offendingBuilderSentences.length} naming a plan or membership`,
+  `wall-clock birth rule in ${Object.keys(inputGuidanceFiles).length} files, ${datedCutover.length} dated cutovers`,
+].join("; "));

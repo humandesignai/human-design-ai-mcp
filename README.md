@@ -1,8 +1,8 @@
 # HumanDesign.ai MCP
 
-The official, account-connected Human Design MCP for Claude, ChatGPT, and Codex, backed by the same validated, versioned calculation service that powers HumanDesign.ai.
+The official HumanDesign.ai MCP server, for use with Claude, ChatGPT, Codex, Cursor and VS Code, backed by the same validated, versioned calculation service that powers HumanDesign.ai.
 
-HumanDesign.ai MCP gives an AI assistant structured chart data, deterministic bodygraph graphics, and authorized account workflows without asking a language model to approximate chart mathematics. It uses secure HumanDesign.ai OAuth and filters every tool by the signed-in account, selected workspace, role, membership, ownership, server-derived capability grants, entitlements, and active rollout access. New calculations are delegated to the same birth-input, timezone, calculation, and quota authority used by HumanDesign.ai.
+HumanDesign.ai MCP gives an AI assistant structured chart data, deterministic bodygraph graphics, and authorized account workflows without asking a language model to approximate chart mathematics. It uses secure HumanDesign.ai OAuth and filters every tool by the signed-in account, selected workspace, role, membership, ownership, server-derived capability grants, and entitlements. New calculations are delegated to the same birth-input, timezone, calculation, and quota authority used by HumanDesign.ai.
 
 ## Connect
 
@@ -47,7 +47,7 @@ If you do not yet have a HumanDesign.ai account, the authorization flow offers *
 
 This repository also contains the universal `.codex-plugin/plugin.json` package used for ChatGPT/Codex plugin submission.
 
-The MCP can be tested in Developer Mode today. This repository does not claim availability in an official ChatGPT, Codex, or Claude directory unless and until that directory has reviewed and published it.
+The MCP can be tested in Developer Mode today. This repository does not claim that the MCP is listed in or approved by any ChatGPT, Codex, or Claude directory unless and until that directory has reviewed and published it.
 
 ### Codex
 
@@ -82,11 +82,19 @@ For MCP calls, `generate_chart`, `generate_composite_chart`, and `get_transits` 
 | Free | Generate, view, and render your own primary chart. |
 | Individual | Your own primary chart plus account usage information. This membership uses the internal identifier `solo`. |
 | Personal | The minimum membership for wider authorized chart and saved-composite access, the wider library, and reports already owned. |
-| Pro | Personal capabilities plus entitled professional workspaces. Website Builder reads and cancellable-run controls appear only when active Builder rollout access is also enabled. |
+| Pro | Personal capabilities plus entitled professional workspaces. |
 
-Selecting a workspace does not grant new permissions. It chooses the account boundary for the connection. Membership, role, ownership, and entitlement checks still apply to every tool call, and an authorized Builder boundary covers eligible projects underneath it.
+Website Builder tools appear only when HumanDesign.ai has enabled the Builder for your account, and only when `tools/list` advertises them.
+
+Selecting a workspace does not grant new permissions. It chooses the account boundary for the connection. Membership, role, ownership, and entitlement checks still apply to every tool call. An authorized Builder boundary covers eligible projects underneath it.
 
 HumanDesign.ai itself offers experiences beyond this MCP release, including deeper chart context, professionals, community learning, and people exploring similar design patterns. The MCP does not currently expose community actions. The calculation tool `get_transits` is controlled by the separate API tier and begins at API Startup, rather than being granted by a platform membership.
+
+## Birth date and time
+
+Send the birth date and time as it read on the clock where the person was born, with no `Z` and no UTC offset, and give the timezone separately as an IANA identifier. For example, `"birthDateTime": "1990-05-15T14:30:00"` with `"timezone": "America/New_York"` means half past two in the afternoon in New York. Never convert a birth time to UTC before sending it, and never append `Z` to make a value look like ISO 8601. Values carrying `Z` or a numeric offset are deprecated: they are still accepted for now, read as UTC, and the API flags the deprecation on its response.
+
+A wall clock time that names no single moment is refused before any calculation unit is used: `nonexistent_local_time` when a daylight-saving change skipped it, `ambiguous_local_time` when a daylight-saving fold repeated it, and `future_birth_datetime` when the birth is in the future. Ask the person to confirm the intended clock time rather than guessing one. Transit dates use the same wall clock format but may be in the future.
 
 ## Composite charts
 

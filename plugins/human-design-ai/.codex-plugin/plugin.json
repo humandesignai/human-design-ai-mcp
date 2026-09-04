@@ -25,7 +25,7 @@
   "interface": {
     "displayName": "HumanDesign.ai",
     "shortDescription": "Validated HumanDesign.ai chart data in your agent",
-    "longDescription": "Create or render authorized individual charts, explore saved composite bodygraphs and library items, review account usage and existing reports, and inspect entitled Website Builder projects through secure HumanDesign.ai OAuth and the same calculation authority used by HumanDesign.ai.",
+    "longDescription": "Create or render authorized individual charts, explore saved composite bodygraphs and library items, review account usage and existing reports, and inspect entitled Website Builder projects through secure HumanDesign.ai OAuth and the same validated, versioned calculation service that powers HumanDesign.ai.",
     "developerName": "HumanDesign.ai",
     "category": "Productivity",
     "capabilities": [
