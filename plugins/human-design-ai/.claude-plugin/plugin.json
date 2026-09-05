@@ -1,6 +1,6 @@
 {
   "name": "human-design-ai",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Connect Claude to validated HumanDesign.ai charts and saved composite charts, deterministic bodygraph graphics, and authorized account workflows.",
   "author": {
     "name": "HumanDesign.ai",

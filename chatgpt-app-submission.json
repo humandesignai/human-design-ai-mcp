@@ -4,7 +4,7 @@
   "app_info": {
     "display_name": "HumanDesign.ai",
     "subtitle": "Validated chart tools",
-    "description": "HumanDesign.ai connects ChatGPT to the same validated, versioned calculation service that powers HumanDesign.ai. It returns structured individual and composite Human Design chart data, can create or retrieve the signed-in user's primary chart, renders authorized charts and saved composites as deterministic PNG or SVG graphics, searches permitted library records, reports account usage, reads existing report status, and inspects entitled Website Builder projects. Server-derived capability grants, membership, workspace role, ownership, and entitlements filter account tools; protected API keys expose calculation-only tools. Website Builder tools appear only when HumanDesign.ai has enabled the Builder for the connected account, and only when tools/list advertises them. This release does not generate or deliver reports, create or publish websites, operate community features, or perform business actions.",
+    "description": "HumanDesign.ai connects ChatGPT to the same validated, versioned calculation service that powers HumanDesign.ai. It returns structured individual and composite Human Design chart data, resolves and renders the signed-in user's primary chart, searches permitted chart and composite library records, reports account usage, and reads available report templates or existing report status. When the live catalog advertises chart_generate, it can preview and create the signed-in user's own primary chart without replacing an existing one. Server-derived capability grants, membership, workspace role, ownership, and entitlements filter account tools; protected API keys expose calculation-only tools. Website Builder tools appear only when HumanDesign.ai has enabled the Builder for the connected account, and only when tools/list advertises them. This release does not generate or deliver reports, create or publish websites, operate community features, or perform business actions.",
     "category": "LIFESTYLE"
   },
   "tools": {
@@ -319,11 +319,11 @@
       "expected_output_url": null
     },
     {
-      "description": "Preview primary-chart creation without charging or replacing an existing chart.",
-      "user_prompt": "I do not have a primary chart yet. Preview creating mine from the fictional details 1990-01-15 at 10:30 in London, United Kingdom, and wait for my confirmation before you create it.",
+      "description": "Resolve the signed-in user's primary chart without name-searching the library.",
+      "user_prompt": "Find my own primary Human Design chart and summarize its type, strategy, authority, and profile.",
       "file_attachment_urls": null,
-      "tools_triggered": "chart_generate",
-      "expected_output": "Returns normalized birth details, any location or accuracy warning, a one-calculation-unit quote, and a short-lived confirmation; it does not execute before confirmation and returns an existing primary chart without another charge if one already exists.",
+      "tools_triggered": "chart_get_primary",
+      "expected_output": "Returns the owner-scoped primary chart directly, without searching by the user's name or chart title and without changing quota or account state.",
       "expected_output_url": null
     },
     {
@@ -335,19 +335,19 @@
       "expected_output_url": null
     },
     {
-      "description": "Find and render an authorized saved composite relationship chart.",
-      "user_prompt": "Find my saved composite relationship charts, let me choose one, and render the selected bodygraph as an SVG.",
+      "description": "Find and retrieve an authorized saved composite relationship chart.",
+      "user_prompt": "Find my saved composite relationship charts and show me the metadata for one I am allowed to access.",
       "file_attachment_urls": null,
-      "tools_triggered": "library_search, chart_render",
-      "expected_output": "Returns only authorized saved composites, then renders the selected composite as an SVG image with a short-lived fallback link; an empty search result is handled without exposing another workspace.",
+      "tools_triggered": "library_search, library_get",
+      "expected_output": "Returns only authorized saved composites, then retrieves the selected composite metadata without exposing another workspace or changing account state.",
       "expected_output_url": null
     },
     {
-      "description": "List entitled Website Builder projects without starting or publishing work.",
-      "user_prompt": "List the HumanDesign.ai Website Builder projects I am allowed to see and show each project's current state.",
+      "description": "List report templates without generating or delivering a report.",
+      "user_prompt": "What HumanDesign.ai report templates are available to me? Do not generate or deliver anything.",
       "file_attachment_urls": null,
-      "tools_triggered": "builder_project_list",
-      "expected_output": "Returns the entitled project list or an empty list inside the connected boundary without starting a build, publishing a site, or exposing integration secret values.",
+      "tools_triggered": "report_list_templates",
+      "expected_output": "Returns available report-template metadata inside the connected boundary without starting report generation, charging credits, or sending anything.",
       "expected_output_url": null
     }
   ],

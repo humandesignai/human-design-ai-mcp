@@ -10,7 +10,7 @@
       "name": "human-design-ai",
       "source": "./plugins/human-design-ai",
       "description": "Connect Claude to validated HumanDesign.ai chart data, saved composites, deterministic bodygraph graphics, and authorized account workflows.",
-      "version": "1.1.0"
+      "version": "1.1.1"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "human-design-ai",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Connect ChatGPT and Codex to validated HumanDesign.ai charts and saved composite charts, deterministic bodygraph graphics, and authorized account workflows.",
   "author": {
     "name": "HumanDesign.ai",
@@ -25,7 +25,7 @@
   "interface": {
     "displayName": "HumanDesign.ai",
     "shortDescription": "Validated HumanDesign.ai chart data in your agent",
-    "longDescription": "Create or render authorized individual charts, explore saved composite bodygraphs and library items, review account usage and existing reports, and inspect entitled Website Builder projects through secure HumanDesign.ai OAuth and the same validated, versioned calculation service that powers HumanDesign.ai.",
+    "longDescription": "Resolve and render authorized individual charts, explore saved composite bodygraphs and library items, review account usage and existing reports, and use only the account capabilities advertised by secure HumanDesign.ai OAuth and the same validated, versioned calculation service that powers HumanDesign.ai.",
     "developerName": "HumanDesign.ai",
     "category": "Productivity",
     "capabilities": [

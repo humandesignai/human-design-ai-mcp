@@ -2,7 +2,7 @@
 
 The official HumanDesign.ai MCP server, for use with Claude, ChatGPT, Codex, Cursor and VS Code, backed by the same validated, versioned calculation service that powers HumanDesign.ai.
 
-HumanDesign.ai MCP gives an AI assistant structured chart data, deterministic bodygraph graphics, and authorized account workflows without asking a language model to approximate chart mathematics. It uses secure HumanDesign.ai OAuth and filters every tool by the signed-in account, selected workspace, role, membership, ownership, server-derived capability grants, and entitlements. New calculations are delegated to the same birth-input, timezone, calculation, and quota authority used by HumanDesign.ai.
+HumanDesign.ai MCP gives an AI assistant structured chart data, deterministic bodygraph graphics, and authorized account workflows without asking a language model to approximate chart mathematics. It uses secure HumanDesign.ai OAuth and filters every tool by the signed-in account, selected workspace, role, membership, ownership, server-derived capability grants, and entitlements. New API-key calculations are delegated to the same birth-input, timezone, calculation, and quota authority used by HumanDesign.ai.
 
 ## Connect
 
@@ -79,7 +79,7 @@ For MCP calls, `generate_chart`, `generate_composite_chart`, and `get_transits` 
 
 | Membership | MCP experience |
 |---|---|
-| Free | Generate, view, and render your own primary chart. |
+| Free | View and render your own primary chart. Creating it through MCP is available when the live catalog advertises `chart_generate`; otherwise use the normal HumanDesign.ai onboarding flow. |
 | Individual | Your own primary chart plus account usage information. This membership uses the internal identifier `solo`. |
 | Personal | The minimum membership for wider authorized chart and saved-composite access, the wider library, and reports already owned. |
 | Pro | Personal capabilities plus entitled professional workspaces. |
@@ -98,7 +98,7 @@ A wall clock time that names no single moment is refused before any calculation 
 
 ## Composite charts
 
-The API-key calculation surface can generate a new composite from two sets of birth details. An OAuth-connected account can retrieve an authorized saved composite from the library and render it as PNG or SVG when the live tool list permits it.
+The API-key calculation surface can generate a new composite from two sets of birth details. An OAuth-connected account can retrieve an authorized saved composite from the library. Rendering a saved composite is supported only when the live `chart_render` schema exposes the required composite arguments in the client being used.
 
 Composite charts are designed for exploring relationship dynamics between two charts. Generating a new composite through an API key uses the calculation quota reported by the server. Retrieving or rendering an existing OAuth-authorized saved composite is free unless the returned billing envelope says otherwise.
 
@@ -111,7 +111,7 @@ Ask: **“Show my Human Design chart as a PNG.”** The assistant should resolve
 - API keys remain calculation-only; account-connected tools use OAuth.
 - Discovery and permitted reads are free unless a result explicitly states otherwise.
 - Existing-chart rendering is free; calculating and rendering a new chart uses one normal calculation unit.
-- Existing-composite rendering follows the same image fallback: inline PNG where supported, plus a short-lived download link.
+- Existing-composite rendering follows the same image fallback when the live client exposes composite rendering arguments: inline PNG where supported, plus a short-lived download link.
 - Account-connected consequential actions use previews and confirmation when the live tool advertises that workflow; high-risk external effects use a secure HumanDesign.ai handoff. API-key calculations execute directly and use the quota/idempotency contract above.
 - The MCP never asks users to paste passwords, OAuth tokens, refresh tokens, API keys, or integration secrets into chat.
 

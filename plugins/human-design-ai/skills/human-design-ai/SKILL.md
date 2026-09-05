@@ -1,11 +1,11 @@
 ---
 name: human-design-ai
-description: Use the official HumanDesign.ai MCP to create or render individual and composite charts, explore authorized library items, review account usage and existing reports, or inspect entitled Website Builder projects and cancel eligible runs.
+description: Use the official HumanDesign.ai MCP to resolve or render individual charts, explore authorized composite charts and library items, review account usage and existing reports, or use other capabilities when the live catalog advertises them.
 ---
 
 # HumanDesign.ai
 
-Use the official HumanDesign.ai MCP for requests involving the signed-in user's individual charts, saved composite relationship charts, library, existing reports, operations, account usage, or entitled Website Builder projects. A separate API-key connection can expose new composite calculations, transits, and public-figure search according to its API tier.
+Use the official HumanDesign.ai MCP for requests involving the signed-in user's individual charts, saved composite relationship charts, library, existing reports, operations, account usage, or other account-connected capabilities that the live catalog advertises. A separate API-key connection can expose new composite calculations, transits, and public-figure search according to its API tier.
 
 ## Connect and establish context
 
@@ -16,7 +16,7 @@ Use the official HumanDesign.ai MCP for requests involving the signed-in user's 
 
 ## Membership-aware boundaries
 
-- Free: generate, view, and render the user's own primary chart.
+- Free: view and render the user's own primary chart. Creating it through MCP is available only when the live catalog advertises `chart_generate`; otherwise send the user through normal HumanDesign.ai onboarding.
 - Individual (internal identifier: `solo`): the Free chart boundary plus account usage information; it does not grant access to other people's charts, saved composites, the wider library, or reports.
 - Personal: the minimum membership that may expose wider authorized charts, saved composites, the wider library, and already-owned reports according to the live catalog.
 - Pro: Personal capabilities plus entitled professional workspaces.
@@ -33,7 +33,7 @@ When a requested capability is unavailable because of membership or entitlement:
 ## Primary chart and graphics
 
 - For "my chart", use `chart_get_primary` when available. Do not search the library by the user's first name.
-- If no primary chart exists, use `chart_generate` in preview mode. Show normalized birth details, ambiguity or unknown-time warnings, and the one-unit quota estimate before asking for confirmation. Reuse one stable idempotency key for preview, execution, and safe retries. Never replace an existing primary chart.
+- If no primary chart exists and `chart_generate` is advertised, use it in preview mode. Show normalized birth details, ambiguity or unknown-time warnings, and the one-unit quota estimate before asking for confirmation. Reuse one stable idempotency key for preview, execution, and safe retries. Never replace an existing primary chart. If `chart_generate` is not advertised, provide the platform onboarding link returned by the server instead of inventing a workaround.
 - Use `chart_render` when the user wants a bodygraph image. Prefer PNG for inline chat display and SVG for scalable export.
 - If the client does not display the returned image block, provide the short-lived download link from the tool result and say that it expires.
 - Rendering an existing authorized chart is free. If a new calculation is required, explain that the normal calculation quota applies once; never calculate and render as two billable operations.
@@ -52,7 +52,7 @@ When a requested capability is unavailable because of membership or entitlement:
 - For a new two-person relationship bodygraph, use `generate_composite_chart` with both people's birth details when the live tool list exposes it.
 - For `generate_chart`, `generate_composite_chart`, and `get_transits`, create one stable `idempotencyKey` for the intended calculation. Always pass an explicit `date` to `get_transits` so a retry addresses the same instant. Reuse the key only with identical normalized arguments when recovering from a transport failure; use a new key for new work. A matching retry consumes no additional quota but may deterministically recompute the result, so do not describe it as byte-for-byte stored-response replay.
 - For an authorized saved composite, use `library_search` with type `composite` or `library_get` with kind `composite`; do not approximate a composite by combining two narrative summaries.
-- Use `chart_render` for an authorized composite image when supported. Prefer PNG in chat and SVG for scalable export, and provide the short-lived link if the client does not display the image block.
+- Use `chart_render` for an authorized composite image only when the live client schema exposes composite rendering arguments. Prefer PNG in chat and SVG for scalable export, and provide the short-lived link if the client does not display the image block. If the client only exposes `chartId`, do not pass a composite ID as a chart ID.
 - Explain the quota or billing metadata returned by the server. Retrieving and rendering an existing authorized composite is free unless the envelope says otherwise; a new composite calculation uses the calculation quota reported by the server.
 - Present composite results as material for exploring relationship dynamics, not deterministic compatibility, therapy, or advice. Obtain consent and respect ownership boundaries for another person's data.
 
@@ -73,4 +73,4 @@ When a requested capability is unavailable because of membership or entitlement:
 
 ## Current release boundary
 
-The live release includes `generate_composite_chart` and Startup-tier `get_transits` on the entitled API-key calculation surface, plus OAuth account and usage reads, primary-chart creation and resolution, authorized individual/composite rendering, composite-aware library search/get/organization, operation status/cancellation, report-template and report-status reads, and safe Website Builder reads/cancellable-run cancellation. Community actions are not exposed. Use the live `tools/list` result as the final source of truth; do not claim staged report generation/delivery or Builder creation/approval/publishing is live until the server advertises it.
+The verified live release includes `generate_composite_chart` and Startup-tier `get_transits` on the entitled API-key calculation surface, plus OAuth account and usage reads, primary-chart resolution and rendering, composite-aware library search/get, and report-template and report-status reads. `chart_generate`, composite rendering, library organization, operations, and Website Builder tools must be treated as available only when the live `tools/list` result advertises them for the connected account and client. Community actions are not exposed. Use the live `tools/list` result as the final source of truth; do not claim staged report generation/delivery or Builder creation/approval/publishing is live until the server advertises it.
