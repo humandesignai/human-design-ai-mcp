@@ -177,7 +177,7 @@ if (!/minimum membership for wider authorized chart/i.test(capabilities.membersh
   throw new Error("Personal must remain the minimum wider-design membership boundary");
 }
 
-if (chatgptSubmission.$schema !== "https://developers.openai.com/apps-sdk/schemas/chatgpt-app-submission.v1.json" || chatgptSubmission.schema_version !== 1) {
+if (chatgptSubmission.$schema !== "https://developers.openai.com/plugins/schemas/chatgpt-app-submission.v1.json" || chatgptSubmission.schema_version !== 1) {
   throw new Error("ChatGPT submission schema metadata is invalid");
 }
 if (chatgptSubmission.app_info?.display_name !== "HumanDesign.ai") {

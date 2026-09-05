@@ -1,9 +1,9 @@
 {
-  "$schema": "https://developers.openai.com/apps-sdk/schemas/chatgpt-app-submission.v1.json",
+  "$schema": "https://developers.openai.com/plugins/schemas/chatgpt-app-submission.v1.json",
   "schema_version": 1,
   "app_info": {
     "display_name": "HumanDesign.ai",
-    "subtitle": "Trusted Human Design charts",
+    "subtitle": "Validated chart tools",
     "description": "HumanDesign.ai connects ChatGPT to the same validated, versioned calculation service that powers HumanDesign.ai. It returns structured individual and composite Human Design chart data, can create or retrieve the signed-in user's primary chart, renders authorized charts and saved composites as deterministic PNG or SVG graphics, searches permitted library records, reports account usage, reads existing report status, and inspects entitled Website Builder projects. Server-derived capability grants, membership, workspace role, ownership, and entitlements filter account tools; protected API keys expose calculation-only tools. Website Builder tools appear only when HumanDesign.ai has enabled the Builder for the connected account, and only when tools/list advertises them. This release does not generate or deliver reports, create or publish websites, operate community features, or perform business actions.",
     "category": "LIFESTYLE"
   },
